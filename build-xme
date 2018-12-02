@@ -1,0 +1,76 @@
+Build MXE
+
+sudo apt-get install \
+    autoconf automake autopoint bash bison bzip2 flex gettext\
+    git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev \
+    libtool-bin libltdl-dev libssl-dev libxml-parser-perl make \
+    openssl p7zip-full patch perl pkg-config python ruby scons \
+    sed unzip wget xz-utils
+
+  657  grep MXE_GCC_THREADS * -R
+  658  vim Makefile 
+  659  ls
+  660  make MXE_TARGETS=x86_64-w64-mingw32.shared gcc winpthreads 
+  661  ./usr/bin/x86_64-w64-mingw32.shared-gcc --version
+  662  ./usr/bin/x86_64-w64-mingw32.shared-gcc -v
+  663  ls
+  664  vim Makefile 
+  665  make MXE_TARGETS=x86_64-w64-mingw32.shared gcc
+  666  vim src/gcc.mk 
+  667  make MXE_TARGETS=x86_64-w64-mingw32.shared gcc
+  668  vim src/gcc.mk 
+  669  make MXE_TARGETS=x86_64-w64-mingw32.shared gcc
+  670  make MXE_TARGETS=x86_64-w64-mingw32.shared glib libzip libusb1 libftdi1 glibmm boost
+
+change in Makefile
+
+
+
+build iconv
+wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+tar -xf libiconv-1.14.tar.gz 
+  677  cd ../libiconv-1.14/
+  678  ./configure --host=x86_64-w64-mingw32 --prefix=/usr/x86_64-w64-mingw32/ 
+  679  ls ../
+  680  make -j4
+  681  make install
+  682  sudo make install
+
+build gettext
+
+  686  wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.3.2.tar.gz
+  687  tar -xf gettext-0.18.3.2.tar.gz 
+  688  cd gettext-0.18.3.2/
+  689  ls
+  690  cd gettext-runtime/
+  691  ls
+  692  ./configure --host=x86_64-w64-mingw32 --prefix=/usr/x86_64-w64-mingw32/ 
+  693  make -j4
+  694  make
+  695  sudo make install
+
+build GLib
+
+
+
+[build]     expat                  x86_64-w64-mingw32.shared
+[done]      expat                  x86_64-w64-mingw32.shared                              6836 KiB       0m14.166s
+[download]  dbus
+[build]     dbus                   x86_64-w64-mingw32.shared
+[done]      dbus                   x86_64-w64-mingw32.shared                              19960 KiB      0m51.551s
+[download]  libiconv
+[build]     libiconv               x86_64-w64-mingw32.shared
+[done]      libiconv               x86_64-w64-mingw32.shared                              27084 KiB      0m26.558s
+[download]  gettext
+[build]     gettext                x86_64-w64-mingw32.shared
+[done]      gettext                x86_64-w64-mingw32.shared                              112292 KiB     0m35.215s
+[download]  libffi
+[build]     libffi                 x86_64-w64-mingw32.shared
+[done]      libffi                 x86_64-w64-mingw32.shared                              6804 KiB       0m10.189s
+[download]  pcre
+[build]     pcre                   x86_64-w64-mingw32.shared
+[done]      pcre                   x86_64-w64-mingw32.shared                              16536 KiB      0m21.857s
+[build]     zlib                   x86_64-w64-mingw32.shared
+[done]      zlib                   x86_64-w64-mingw32.shared                              3980 KiB       0m6.094s
+[download]  glib
+[build]     glib                   x86_64-w64-mingw32.shared

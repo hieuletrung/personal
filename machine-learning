@@ -1,0 +1,286 @@
+from sklearn.metrics import precision_recall_curve
+
+print(m)
+y_scores_lr = m.fit(X_train, y_train).decision_function(X_test)
+precision, recall, thresholds = precision_recall_curve(y_test, y_scores_lr)
+closest_zero = np.argmin(np.abs(thresholds))
+closest_zero_p = precision[closest_zero]
+closest_zero_r = recall[closest_zero]
+
+plt.figure()
+plt.xlim([0.0, 1.01])
+plt.ylim([0.0, 1.01])
+plt.plot(precision, recall, label='Precision-Recall Curve')
+plt.plot(closest_zero_p, closest_zero_r, 'o', markersize = 12, fillstyle = 'none', c='r', mew=3)
+plt.xlabel('Precision', fontsize=16)
+plt.ylabel('Recall', fontsize=16)
+plt.axes().set_aspect('equal')
+plt.show()
+
+
+
+print(m)
+
+svm_predicted_mc = m.predict(X_test)
+
+print('Micro-averaged precision = {:.2f} (treat instances equally)'
+      .format(precision_score(y_test, svm_predicted_mc, average = 'micro')))
+
+
+print(m)
+
+grid_values = {'gamma': [0.01, 0.1, 1, 10]}
+
+# default metric to optimize over grid parameters: accuracy
+grid_clf_acc = GridSearchCV(m, param_grid = grid_values, scoring = 'precision')
+grid_clf_acc.fit(X_train, y_train)
+y_pred = grid_clf_acc.predict(X_test)
+
+recall_score(y_test, y_pred)-precision_score(y_test, y_pred)
+
+
+
+Q1: 0.99
+Q2: 0.905
+Q3: 0.923
+Q4: 0.960
+Q5: 0.6
+Q6: R1, R3, R2
+Q7: not enough info
+Q8: Using the fitted model `m` what is the micro precision score?
+0.74 (wrong) 0.810 (wrong)
+Q9:
+A model that always predicts the mean of y would get a score of 0.0
+The best possible score is 1.0
+Q10: precision 
+Q11: recall
+Q12: misclassify the frequent label
+Q13: -0.113 (wrong) 0.520
+Q14: -0.166 (wrong) -0.15 (wrong)
+
+---
+Q1: Separate the data into distinct groups by similarity
+Q2:
+Trees often require less preprocessing of data
+Trees are easy to interpret and visualize
+Q3:
+To improve generalization by reducing correlation among the trees and making the model more robust to bias.
+Q4:
+SVN
+KNN
+Neural Networks
+Q5:
+For predicting future sales of a clothing line, Linear regression would be a better choice than a decision tree regressor.
+For a model that won’t overfit a training set, Naive Bayes would be a better choice than a decision tree.
+Q6:
+Neural Network
+KNN
+Decision Tree
+Q7:
+print float((3796.0 + 3408.0) / 8124.0)
+print float((3760.0 + 512.0 + 3408.0 + 72.0)/ 8124.0)
+print float((3760.0 + 512.0 + 3408.0 + 72.0)/ 8124.0) - float((3796.0 + 3408.0) / 8124.0)
+0.067454455933
+Q8:
+compliance_detail - More information on why each ticket was marked compliant or non-compliant
+collection_status - Flag for payments in collections
+Q9:
+(wrong 1)
+If time is a factor, remove any data related to the event of interest that doesn’t take place prior to the event.
+Sanity check the model with an unseen validation set
+Ensure that data is preprocessed outside of any cross validation folds.
+(wrong 2)
+Sanity check the model with an unseen validation set
+If time is a factor, remove any data related to the event of interest that doesn’t take place prior to the event.
+(wrong 3)
+Remove variables that a model in production wouldn’t have access to
+Sanity check the model with an unseen validation set
+
+Q10: 
+0, 1, 1, 0
+
+---
+3) What does NLTK’s function word_tokenize() do?
+It splits a sentence into words.
+4) What is a sentence parser typically used for?
+It is used to parse sentences to derive their most likely syntax tree structures.
+5) If you want to map all derivationally related words to their root verb using NLTK, you will use:
+Lemmatizer
+---
+1) You are given a dataset on movie reviews with a 1,000 labeled reviews. The labels are one of five movie genres: Action, Comedy, Drama, Horror, and Sci-Fi. The dataset has roughly 200 movie reviews for each movie genre.
+Binary Classification
+2) The dataset available for the first task is:
+Skewed
+3) Suppose you decide to train a support vector machine classifier for this first task. The methodology you will employ will be a:
+B. One vs Rest classifier (wrong)
+Either A or B (wrong)
+C. Single binary classifier
+
+4) You are given a dataset on movie reviews with a 1,000 labeled reviews. The labels are one of five movie genres: Action, Comedy, Drama, Horror, and Sci-Fi. The dataset has roughly 200 movie reviews for each movie genre. Your second task is to learn to identify all five movie genres. Such a task is:
+Multi-class classification
+5)The dataset available for the second task is:
+Balanced
+6) Suppose you decide to train a support vector machine classifier for the second task. The methodology you will employ will be a:
+C. Single five-class classifier (wrong)
+A. One vs One classifier (wrong)
+Either A or B
+7) How many binary classifiers will you need to train for the second task using the one-vs-one classification approach?
+25 (wrong)
+5 (wrong)
+1 (wrong)
+
+---
+1) In the WordNet hierarchy, the word ‘puppy’ is a direct hyponym of ‘dog’ (i.e. ‘puppy’ is a kind of ‘dog’. The least common subsumer for ‘puppy’ and ‘dog’ is:
+Dog
+2) If ‘puppy’ is a direct hyponym of ‘dog’, ‘dog’ is a direct ______ of ‘puppy’
+Hypernym
+---
+1) Which of the following is not included in WordNet:
+Pronunciation
+2) If the shortest distance between words A and B in the WordNet hierarchy is 6, the path-based similarity measure PathSim(A,B) would be:
+1/(6+1) = 1/7 = 0.143
+3) When computing the similarity between words C and D, the distributional similarity based metric gives a higher score than a path-based similarity measure. What can be inferred from this observation?
+Nothing can be inferred. The similarity values from different measures cannot be directly compared.
+4) Which of the following approaches can be used to recognize monetary values (like USD 100, JPY 1000, etc.)
+All of the above
+5) Which of the following is not given as input for a topic modeling setup?
+The topics
+
+
+---
+Network
+1) Select all the true statements below.
+When there are only two opposite relationships between nodes, a signed network is a good representation.
+Weighted networks are used to describe networks with unequal relationships between nodes.
+2) A network that has parallel edges (a pair of nodes with different types of concurrent relationships) is called a ________.
+Multigraph
+3) Suppose we want to plot a network representing a small food web for students in a biology class. In order to give them a better understanding of the network, we want to show who is the predator and who is the prey. For those predators who have multiple options for prey, we also want to represent the predator’s preferences (i.e. which prey it likes most or second most). Choose the most appropriate type of network.
+Directed Weighted Network
+4) Select all true statements:
+Edges can carry many labels or attributes.
+Accessing node or edge attributes in NetworkX is the same as accessing values in a Python dictionary
+Suppose we have created a nx.Graph()object G with some nodes and edges. The statement G.nodes(data=True) will return a list of tuples.
+5) Based on the following lines of code, what is the type of G.edge['A']['C']?
+Dictionary
+6) Based on the following lines of code, what's the correct statement to access the edge attribute "friend"?
+G.edge['A']['B'][0]['relation']
+8) Based on the bipartite network below, select all the edges you can add to the network while maintaining its bipartite structure.
+1,b
+3,e
+9) Based on the bipartite network below, which of the following is the bipartite projection of the graph onto the set of circle nodes?
+d
+10) What is the weight of edge AC in the projection graph?
+3
+---
+1) Consider the given network. What is the value of node F’s local clustering coefficient?
+0.7
+2) Given the following two networks, which of the following is True?
+Network (A) has higher average local clustering coefficient but lower transitivity than (B).
+
+3) Consider the network shown below and select all that apply.
+If we perform Breadth-First Search (BFS) from node A, the BFS tree we obtain will have a depth of 4.
+The radius of this network is half of its diameter.
+The deletion of node G will make the network disconnected.
+The eccentricity of node B and C are equal.
+4)
+It is a disconnected graph with 2 connected components.
+If edge (E,G) is removed, the number of connected components will not change.
+We can make the graph connected by adding edge (E,J).
+
+5)
+(wrong 1)
+All edges in network (B) are needed for the network to be strongly connected.
+We only need to add one directed edge in order to change network (C) to a strongly connected graph.
+(try 2) (wrong)
+Only network (B) is a strongly connected graph.
+All edges in network (B) are needed for the network to be strongly connected.
+We only need to add one directed edge in order to change network (C) to a strongly connected graph.
+(try 3) (wrong)
+Only network (B) is a strongly connected graph.
+All edges in network (B) are needed for the network to be strongly connected.
+
+6)
+The closure of an airport and the cancellation of a flight route are examples of two different kinds of network attacks in the real world.
+Adding edges to a network can never make the network less robust.
+Network robustness measures a network’s ability to maintain its connectivity.
+
+7) What's the node connectivity of the network?
+1
+8) What is the edge connectivity of the network?
+2 
+9) What is the total number of simple paths from node D to node K?
+8
+10) Suppose we want to block all information channels from node E to node K. Which of the following options achieve this goal? Check all that apply.
+Removing node F and H
+Removing edges (H,K) and (E,F)
+
+---
+1) Based on the network below, what is the degree centrality of node D?
+0.67
+2) Based on the network below, what is the closeness centrality of node G?
+0.6
+3) Based on the network below, what is the normalized betweenness centrality (excluding endpoints) of node G?
+0.33
+4) Based on the network below, what is the betweenness centrality without normalization of edge (G,F)?
+6
+5) Select all True statements.
+The assumption of degree centrality is that important nodes have more connections.
+The closeness centrality of a node describes how far the node is from others.
+We can use subsets of node-pairs to approximate betweenness centrality.
+6) Select all True statements about Page Rank (PR) and HITS in directed networks.
+The authority and hub score of each node is obtained by computing multiple iterations of HITS algorithm and both scores of most networks are convergent.
+Adding in-links of a node will never decrease its PR.
+7) Given the network below, which value of alpha (damping parameter) listed below in the NetworkX function pagerank maximizes the PageRank of node D?
+0.95
+8) Based on the network below, what is the basic PR of node C at step k = 1?
+0.625
+9) Based on the network below, what are the corresponding normalized authority and hub scores of node C correspondingly after two iterations of HITS algorithm?
+0.57, 0.09
+
+10) Based on the network below, which of the following is NOT True? Check all that apply.
+(wrong)
+Node D’s basic PR at step k (k>=1) is always 0.
+At step k (k>=1), node A’s basic PR is always the same as node C’s basic PR at step k-1.
+(wrong)
+Node D’s authority and hub score after k iterations (k>=1) are always 0.
+At each step, the sum of all nodes’ basic PR is always 1.
+(wrong)
+At step k (k>=1), node A’s basic PR is always the same as node C’s basic PR at step k-1.
+Node D’s authority and hub score after k iterations (k>=1) are always 0.
+At each step, the sum of all nodes’ basic PR is always 1.
+(wrong)
+At each step, the sum of all nodes’ basic PR is always 1.
+
+---
+1) Suppose P(k) denotes the degree distribution of the following network, what is the value of P(2) + P(3)?
+1/2
+2) Let P(k) denote the in-degree distribution of the given network below. What value of k gives the highest value of P(k)?
+(wrong)
+3
+3) Select all that apply
+If we draw a power law distribution in log-log scale, the distribution will look like a straight line.
+The Preferential Attachment Model generates a network with a power law degree distribution.
+4) Select all that apply
+(wrong)
+The Preferential Attachment Model generates a small-world network.
+Some Small-world networks have high local clustering coefficient and small average shortest path.
+In the small-world model starting with k nearest neighbors, increasing the rewiring probability p generally decreases both the average clustering coefficient and average shortest path.
+5) Suppose we want to generate several small-world networks with k nearest neighbors and rewiring probability p. If p remains the same and we increase k, which best describes the variation of average local clustering coefficient and average shortest path?
+Average local clustering coefficient will increase and average shortest path will decrease.
+6) Based on the network below, suppose we want to apply the common neighbors measure to add an edge from node H, which is the most probable node to connect to H?
+A
+7) Based on the network below, what is the Jaccard coefficient of nodes D and C?
+0.4
+8) Based on the network below, if we apply Resource Allocation method to predict the new edges, what is the value of Resource Allocation index of nodes C and D?
+0.83
+9) Based on the network below, what is the preferential attachment score of nodes C and D?
+10
+10) Assume there are two communities in this network: {A, B, C, D, G} and {E, F, H}. Which of the following statements is(are) True? Select all that apply.
+The Common Neighbor Soundarajan-Hopcroft score of node A and node G is 4.
+The Resource Allocation Soundarajan-Hopcroft score of node A and node G is 0.7
+
+
+
+
+
+
