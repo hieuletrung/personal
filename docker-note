@@ -1,0 +1,154 @@
+Docker
+
+$ sudo systemctl start docker
+
+# List docker image
+docker images
+
+# Run image
+docker run [image_name]
+
+# Run the app, mapping your machine’s port 4000 to the container’s published port 80 using -p:
+docker run -p 4000:80 friendlyhello
+
+# List all docker running image
+$ docker container ls
+CONTAINER ID        IMAGE               COMMAND             CREATED
+1fa4ab2cf395        friendlyhello       "python app.py"     28 seconds ago
+
+# Stop docker container
+docker container stop 1fa4ab2cf395
+
+
+Here is a list of the basic Docker commands from this page, and some related ones if you’d like to explore a bit before moving on.
+
+docker build -t friendlyhello .  # Create image using this directory's Dockerfile
+docker run -p 4000:80 friendlyhello  # Run "friendlyname" mapping port 4000 to 80
+docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
+docker container ls                                # List all running containers
+docker container ls -a             # List all containers, even those not running
+docker container stop <hash>           # Gracefully stop the specified container
+docker container kill <hash>         # Force shutdown of the specified container
+docker container rm <hash>        # Remove specified container from this machine
+docker container rm $(docker container ls -a -q)         # Remove all containers
+docker image ls -a                             # List all images on this machine
+docker image rm <image id>            # Remove specified image from this machine
+docker image rm $(docker image ls -a -q)   # Remove all images from this machine
+docker login             # Log in this CLI session using your Docker credentials
+docker tag <image> username/repository:tag  # Tag <image> for upload to registry
+docker push username/repository:tag            # Upload tagged image to registry
+docker run username/repository:tag                   # Run image from a registry
+
+
+docker stack ls                                            # List stacks or apps
+docker stack deploy -c <composefile> <appname>  # Run the specified Compose file
+docker service ls                 # List running services associated with an app
+docker service ps <service>                  # List tasks associated with an app
+docker inspect <task or container>                   # Inspect task or container
+docker container ls -q                                      # List container IDs
+docker stack rm <appname>                             # Tear down an application
+docker swarm leave --force      # Take down a single node swarm from the manager
+
+docker exec -it container_id_or_hash bash
+
+docker run -d -p 80:8080 swaggerapi/swagger-editor
+
+
+
+
+
+---
+1. Create new container  
+   a) docker run -i -t ubuntu /bin/bash
+   b) docker run --name rails_dev_container -i -t ubuntu ubuntu /bin/bash
+   The command line flags - i -t provide an interactive shell in the new container
+
+2. Show running docker containers    ==> docker ps
+
+3. Show list of current containers   ==> 
+   a) docker ps -a   (Show all containers, both stopped and running)
+   b) docker ps -n x (shows the last x containers, running or stopped, ex: docker ps -n 5)
+
+4. Show last container that was run (whether is is running or stopped)  ==> docker ps -l
+
+5. List docker images               ==> docker images
+
+6. Delete a container               
+   a) docker rm <container_id>    (ex: docker rm aa3f365f0f4e)
+   b) docker rm <container_name>  (ex: docker rm rails_dev_container)
+   
+7. Delete all containers            ==> docker rm $(docker ps -a -q)
+
+8. Delete an image                  ==> docker rmi <image_id>
+
+9. Delete all images                ==> docker rmi $(docker images -q)
+
+Start a stopped container
+  a) docker start <container_id>    (ex: docker start aa3f365f0f4e)
+  b) docker start <container_name>  (ex: docker start rails_dev_container)
+  
+Attach to a container
+  a) docker attach <container_id>   (ex: docker attach aa3f365f0f4e)
+  b) docker attach <container_name> (ex: docker attach rails_dev_container)
+
+Creating daemonized containers
+  docker run --name daemon_container -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
+  (-d flag detachs the container to the background)
+  
+To see what's happening inside the container
+  docker logs rails_dev_container
+  docker logs -f rails_dev_container  (like the tail -f)
+  docker logs -ft rails_dev_container (prefix log entries with timestamps)
+  docker logs --tail 10 daemon_container  (get the last 10 lines of the log)
+  docker logs --tail 0 -f daemon_container (follow the logs without having to read the whole log file)
+ 
+Inspecting the container's processes
+  docker top daemon_container
+
+Running a process inside a container
+  a) Background 
+     docker exec -d daemon_container touch /etc/new_config_file
+  b) Interactive
+     docker exec -t -i daemon_container /bin/bash
+
+Stopping a daemonized container
+  docker stop daemon_container
+  or
+  docker stop aa3f365f0f4e
+
+Automatic container restarts
+  docker run --restart=always --name daemon_container -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
+  (docker will try to restart the container no matter what exit code is returned)
+  --restart=on-failure:5 (this will attempt to restart the container a maximum of 5 times if a non-zero exit code is received)
+  
+Finding more about our container
+  docker inspect daemon_container
+  docker inspect --format='{{ .State.Running }}' daemon_container
+  docker inspect --format '{{ .HostnamePath }}' daemon_container
+  docker inspect --format '{{ .Name }} {{ .HostnamePath }}' daemon_container
+  list multiple containers
+    docker inspect --format '{{ .Name }} {{ .HostnamePath }}' daemon_container dameon_cont_2
+
+Pulling images
+  docker pull ubuntu
+  docker pull fedora
+  docker pull fedora:21
+  docker pull jamtur01/puppetmaster
+
+Searching for images
+  docker search puppet
+
+Sign into the Docker Hub
+  docker login
+  
+Using Docker commit to create images
+  Create a container from the ubuntu image
+    docker run -i -t ubuntu /bin/bash
+  Install Apache into the container
+    apt-get -yqq update
+    apt-get -y install apache2
+  exit from the container 
+    docker commit 6b84282435f8 dvdoc/apache2
+    or
+    docker commit -m="A new custom image" --author="DV Suresh" \
+6b84282435f8 dvdoc/apache2:webserver
