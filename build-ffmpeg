@@ -1,0 +1,52 @@
+Build ffmpeg on CentOS
+
+../ffmpeg/configure --prefix=/opt/ffmpeg --enable-libfreetype --enable-libmp3lame --enable-openal --enable-libopenjpeg --enable-libopus --enable-libvorbis --enable-libdc1394 --enable-libcdio --enable-libass --enable-ladspa --enable-gnutls --disable-crystalhd --enable-libpulse --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libv4l2 --enable-libx264 --enable-libx265 --enable-libxvid --enable-avfilter --enable-avresample --enable-postproc --enable-pthreads --enable-gpl --enable-bzlib --enable-libopencore-amrwb --enable-libopencore-amrnb --enable-libvo-amrwbenc --enable-version3 --enable-libfdk-aac --enable-librtmp --enable-nonfree --extra-cflags=-I/home/hieult16/wowza/ffmpeg-depends/include --extra-ldflags=-L/home/hieult16/wowza/ffmpeg-depends/lib
+
+
+PKG_CONFIG_PATH=/home/hieult16/wowza/ffmpeg-build/lib/pkgconfig/ ./configure --prefix=/home/hieult16/wowza/ffmpeg-build --optflags='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -mtune=generic' --enable-bzlib --disable-crystalhd --enable-ladspa --enable-libass --enable-libcdio --enable-libdc1394 --enable-nonfree --enable-libfdk-aac --enable-nonfree --disable-indev=jack --enable-libfreetype --enable-libgsm --enable-libmp3lame --enable-openal --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libv4l2 --enable-libx264 --enable-libx265 --enable-libxvid --enable-libxcb --enable-avfilter --enable-avresample --enable-postproc --enable-pthreads --disable-static --enable-shared --enable-gpl --disable-debug --disable-stripping --enable-runtime-cpudetect   --extra-cflags="-I$HOME/wowza/ffmpeg-build/include" --extra-ldflags="-L$HOME/wowza/ffmpeg-build/lib" --extra-libs=-lpthread --extra-libs=-lm --enable-gnutls --bindir=$HOME/bin --enable-ffplay --enable-libfontconfig --enable-libzmq
+
+yum install autoconf automake bzip2 cmake freetype-devel gcc gcc-c++ git libtool make mercurial pkgconfig zlib-devel
+yum install nasm yasm
+yum install gnutls-devel
+yum install ladspa-devel
+yum install libass-devel
+yum install libdc1394-devel
+yum install gsm-devel
+yum install openjpeg2-devel
+yum install soxr-devel
+yum install speex-devel
+yum install libtheora-devel
+yum install libvorbis-devel
+yum install x265-devel
+yum install xvidcore-devel
+yum install openal-devel
+yum install libcdio-devel libcdio-paranoia-devel
+yum install SDL2-devel
+yum install zeromq-devel
+
+cd ~/ffmpeg_sources
+git clone --depth 1 https://github.com/mstorsjo/fdk-aac
+cd fdk-aac
+autoreconf -fiv
+./configure --prefix="$HOME/ffmpeg_build"
+make
+make install
+
+cd ~/ffmpeg_sources
+curl -O -L http://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
+tar xzvf lame-3.100.tar.gz
+cd lame-3.100
+./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-nasm
+make
+make install
+
+cd ~/ffmpeg_sources
+curl -O -L https://archive.mozilla.org/pub/opus/opus-1.2.1.tar.gz
+tar xzvf opus-1.2.1.tar.gz
+cd opus-1.2.1
+./configure --prefix="$HOME/ffmpeg_build"
+make
+make install
+
+cmake -LAH
+
