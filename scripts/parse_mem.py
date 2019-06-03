@@ -73,6 +73,13 @@ ignore_class = [
     'java/lang/Class', '[Ljava/lang/Class;', 
     'java/lang/String', '[Ljava/lang/String;',
     'java/lang/Integer', '[Ljava/lang/Integer;',
+    'java/lang/Long', '[Ljava/lang/Long;',
+    'java/lang/Object', '[Ljava/lang/Object;',
+    'java/util/Vector', '[Ljava/util/Vector;',
+    'java/util/ArrayList', '[Ljava/util/ArrayList;',
+    'java/util/LinkedList', '[Ljava/util/LinkedList;', 'java/util/LinkedList$Link',
+    'java/util/HashMap', '[Ljava/util/HashMap;', 
+    'java/util/HashMap$Entry', '[Ljava/util/HashMap$Entry;',
 ]
 
 # Get list of memory file sort by create time
@@ -100,6 +107,7 @@ for f in files:
     df_obj_cnt.append(df_tmp_obj_cnt)
 
 df_obj_cnt_final = do_my_diff(df_obj_cnt)
+
 # df_obj_cnt_final = df_obj_cnt[0]
 # # Save the start object count
 # df_obj_cnt_final['Object Count (start)'] = df_obj_cnt_final['Object Count']
@@ -129,9 +137,15 @@ df_obj_sz_final = do_my_diff(df_obj_sz)
 
 df_obj_sz_final.to_excel("output.xlsx")
 
-# Top 10 class that has memory increase most of the time
 # Top 10 class that has object count increase most of the time
-# Top 10 class that has big memory diff between start and end
-# Top 10 class that has big object count diff between start and end
-
+# Top 10 class that has memory increase most of the time
+print "# Top 10 class that has big object count diff between start and end"
+df_tmp = df_obj_cnt_final
+df_tmp["diff_start_end"] = df_tmp["Object Count (end)"] - df_tmp["Object Count (start)"]
+print df_tmp.sort_values(by="diff_start_end", ascending=False).head(10)
+print "    "
+print "# Top 10 class that has big memory diff between start and end"
+df_tmp = df_obj_sz_final
+df_tmp["diff_start_end"] = df_tmp["Memory Used (end)"] - df_tmp["Memory Used (start)"]
+print df_tmp.sort_values(by="diff_start_end", ascending=False).head(10)
 
