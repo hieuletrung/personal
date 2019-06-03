@@ -7,7 +7,7 @@ import os
 import re
 import sys
 
-def read_mem_file(file_name, ignore_classes=[]):
+def read_mem_file(file_name, ignore_classes=[], ignore_packages=()):
     reader = csv.reader(open(file_name, "rb"), delimiter=',', quoting=csv.QUOTE_NONE)
 
     header = []
@@ -16,6 +16,8 @@ def read_mem_file(file_name, ignore_classes=[]):
 
     if ignore_classes == None:
         ignore_classes = [] 
+    if ignore_packages == None:
+        ignore_packages = ()
 
     for row, record in enumerate(reader):
         if len(record) != fields:
@@ -28,6 +30,12 @@ def read_mem_file(file_name, ignore_classes=[]):
                 record[1] = "Memory Used"
                 header = map(str.strip, record)
             elif record[0] in ignore_classes:
+                continue
+            elif record[0].startswith('[L'):
+                # Skip array
+                continue
+            elif record[0].startswith(ignore_packages):
+                # Skip some package
                 continue
             else:
                 records.append(record)
@@ -69,7 +77,7 @@ def do_my_diff(df_orig):
     return df_final
 
 ignore_class = [
-    '[S', '[J', '[C', '[I', '[B', '<native>',
+    '[S', '[J', '[C', '[I', '[B', '<native>', '[Z',
     'java/lang/Class', '[Ljava/lang/Class;', 
     'java/lang/String', '[Ljava/lang/String;',
     'java/lang/Integer', '[Ljava/lang/Integer;',
@@ -80,7 +88,15 @@ ignore_class = [
     'java/util/LinkedList', '[Ljava/util/LinkedList;', 'java/util/LinkedList$Link',
     'java/util/HashMap', '[Ljava/util/HashMap;', 
     'java/util/HashMap$Entry', '[Ljava/util/HashMap$Entry;',
+    'java/util/Hashtable$Entry', '[Ljava/util/Hashtable$Entry;',
+    'java/util/Hashtable', 'L[java/util/Hashtable;',
+    'java/util/Date',
+    'java/lang/StringBuffer',
 ]
+
+ignore_package = (
+    'java/',
+)
 
 # Get list of memory file sort by create time
 file_pattern = r'siegemem.prof-*'
@@ -97,7 +113,7 @@ diff_column = []
 
 # Read the memory files into DataFrames
 for f in files:
-    df_tmp, header = read_mem_file(f, ignore_class)
+    df_tmp, header = read_mem_file(f, ignore_class, ignore_package)
     df_tmp[header[1]] = df_tmp[header[1]].astype(int)
     df_tmp[header[2]] = df_tmp[header[2]].astype(int)
     df_tmp_obj_sz = df_tmp[[header[0], header[1]]]
@@ -138,6 +154,29 @@ df_obj_sz_final = do_my_diff(df_obj_sz)
 df_obj_sz_final.to_excel("output.xlsx")
 
 # Top 10 class that has object count increase most of the time
+df_tmp = df_obj_cnt_final
+for i in range(1, len(df_obj_cnt)):
+    if "inc_count" in df_tmp.columns:
+        tmp_cnt = df_tmp["inc_count"]
+    else:
+        tmp_cnt = []
+    index = 0
+    col_name = str.format("diff_{0}", i)
+    for row in df_tmp[col_name]:
+        if index == len(tmp_cnt):
+            tmp_cnt.append(0)
+
+        value = tmp_cnt[index]
+        if row > 0:
+            value = value + 1
+
+        tmp_cnt[index] = value
+        index = index + 1
+
+    df_tmp["inc_count"] = tmp_cnt
+print "# Top 10 class that has object count increase most of the time"
+print df_tmp.sort_values(by="inc_count", ascending=False)[df_tmp.inc_count > 0]
+
 # Top 10 class that has memory increase most of the time
 print "# Top 10 class that has big object count diff between start and end"
 df_tmp = df_obj_cnt_final
@@ -149,3 +188,4 @@ df_tmp = df_obj_sz_final
 df_tmp["diff_start_end"] = df_tmp["Memory Used (end)"] - df_tmp["Memory Used (start)"]
 print df_tmp.sort_values(by="diff_start_end", ascending=False).head(10)
 
+# Find inconsistent in classes
