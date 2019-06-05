@@ -7,7 +7,7 @@ import os
 import re
 import sys
 
-def read_mem_file(file_name, ignore_classes=[], ignore_packages=()):
+def read_mem_file(file_name, ignore_classes=[], ignore_packages=[]):
     reader = csv.reader(open(file_name, "rb"), delimiter=',', quoting=csv.QUOTE_NONE)
 
     header = []
@@ -34,7 +34,7 @@ def read_mem_file(file_name, ignore_classes=[], ignore_packages=()):
             elif record[0].startswith('[L'):
                 # Skip array
                 continue
-            elif record[0].startswith(ignore_packages):
+            elif record[0].startswith(tuple(ignore_packages)):
                 # Skip some package
                 continue
             else:
@@ -76,27 +76,27 @@ def do_my_diff(df_orig):
 
     return df_final
 
-ignore_class = [
-    '[S', '[J', '[C', '[I', '[B', '<native>', '[Z',
-    'java/lang/Class', '[Ljava/lang/Class;', 
-    'java/lang/String', '[Ljava/lang/String;',
-    'java/lang/Integer', '[Ljava/lang/Integer;',
-    'java/lang/Long', '[Ljava/lang/Long;',
-    'java/lang/Object', '[Ljava/lang/Object;',
-    'java/util/Vector', '[Ljava/util/Vector;',
-    'java/util/ArrayList', '[Ljava/util/ArrayList;',
-    'java/util/LinkedList', '[Ljava/util/LinkedList;', 'java/util/LinkedList$Link',
-    'java/util/HashMap', '[Ljava/util/HashMap;', 
-    'java/util/HashMap$Entry', '[Ljava/util/HashMap$Entry;',
-    'java/util/Hashtable$Entry', '[Ljava/util/Hashtable$Entry;',
-    'java/util/Hashtable', 'L[java/util/Hashtable;',
-    'java/util/Date',
-    'java/lang/StringBuffer',
-]
+def read_ignore_class_from_file(file_name, ret_value=[]):
+    reader = csv.reader(open(file_name, "rb"), delimiter=',', quoting=csv.QUOTE_NONE)
 
-ignore_package = (
-    'java/',
-)
+    for row, record in enumerate(reader):
+        # FIXME how to remove all '' or skip it?
+        if '' in record:
+            record.remove('')
+        record = map(str.strip, record)
+
+        ret_value.extend(record)
+
+    return ret_value
+
+# Ignore class and packages list
+ignore_class = []
+ignore_package = []
+
+# Read from file, comma separate
+ignore_class = read_ignore_class_from_file("ignore_classes.txt", ignore_class)
+ignore_package = read_ignore_class_from_file('ignore_packages.txt', ignore_package)
+
 
 # Get list of memory file sort by create time
 file_pattern = r'siegemem.prof-*'
