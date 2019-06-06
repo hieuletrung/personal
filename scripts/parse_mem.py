@@ -89,13 +89,15 @@ def read_ignore_class_from_file(file_name, ret_value=[]):
 
     return ret_value
 
+path=os.path.dirname(os.path.realpath(__file__))
+
 # Ignore class and packages list
 ignore_class = []
 ignore_package = []
 
 # Read from file, comma separate
-ignore_class = read_ignore_class_from_file("ignore_classes.txt", ignore_class)
-ignore_package = read_ignore_class_from_file('ignore_packages.txt', ignore_package)
+ignore_class = read_ignore_class_from_file(path + "/ignore_classes.txt", ignore_class)
+ignore_package = read_ignore_class_from_file(path + '/ignore_packages.txt', ignore_package)
 
 
 # Get list of memory file sort by create time
