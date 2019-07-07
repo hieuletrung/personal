@@ -1,0 +1,145 @@
+wget -O /tmp/key --post-data '{"request": "ewogICJjb250ZW50X2lkIjogIlptdHFNMnhxWVZOa1ptRnNhM0l6YWc9PSIsCiAgInRyYWNrcyI6IFsKICAgIHsgInR5cGUiOiAiU0QiIH0sCiAgICB7ICJ0eXBlIjogIkhEIiB9LAogICAgeyAidHlwZSI6ICJBVURJTyIgfQogIF0sCiAgImRybV90eXBlcyI6IFsgIldJREVWSU5FIiBdLAogICJwb2xpY3kiOiAiIgp9Cg==", "signature": "kwVLL4xVh9mnlZlPqiEWN0E+FsvG0y+/oy451XXeIMo=", "signer": "widevine_test" }' http://license.uat.widevine.com/cenc/getcontentkey/widevine_test
+
+ 
+
+cut -d: -f2 /tmp/key |base64 -d -i
+
+wget -O /tmp/key --post-data '{"request":"eyJjb250ZW50X2lkIjoidmlkMDAwMDAwMSIsImRybV90eXBlcyI6WyJXSURFVklORSJdLCJ0cmFja3MiOlt7InR5cGUiOiJTRCJ9LHsidHlwZSI6IkhEIn0seyJ0eXBlIjoiQVVESU8ifV19","signature":"gh5CRkGnfeTpCfTDnQ4wHo6VVC+y/PqJ6d/Eob9BM2k=","signer":"widevine_test"}' http://license.uat.widevine.com/cenc/getcontentkey/widevine_test
+
+ 
+
+         <ContentProtection schemeIdUri="urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" bc:licenseAcquisitionUrl="https://wvlic.brightcove.com/proxy/4324249227001" xmlns:bc="urn:brightcove:2015"/>
+
+ 
+
+wget -O /tmp/key --post-data '{"request":"eyJ0cmFja3MiOlt7InR5cGUiOiJTRCJ9LHsidHlwZSI6IkhEIn0seyJ0eXBlIjoiVUhEMSJ9LHsidHlwZSI6IlVIRDIifSx7InR5cGUiOiJBVURJTyJ9XSwiZHJtX3R5cGVzIjpbIldJREVWSU5FIl0sImNyeXB0b19wZXJpb2RfY291bnQiOjEwLCJmaXJzdF9jcnlwdG9fcGVyaW9kX2luZGV4IjowfQ==","signature":"Uu8tYuYdnO7nlmfsu1EdQpjbo8S3VTXAnQTDBAAzaSE=","signer":"widevine_test"}' http://license.uat.widevine.com/cenc/getcontentkey/widevine_test
+
+                               
+
+{"content_id":"vid0000001","drm_types":["WIDEVINE"],"tracks":[{"type":"SD"},{"type":"HD"},{"type":"AUDIO"}]}
+
+ 
+
+ 
+
+echo 2DCD5BC02628DCE094483A274BB39CBA449C4768 | openssl aes-256-cbc -K 1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9 -iv d58ce954203b7c9a9a9d467f59839249 -e
+
+ 
+
+1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9
+
+d58ce954203b7c9a9a9d467f59839249
+
+ 
+
+hieult@hieult-VirtualBox:~/projects/encryptor-git$ cut -d: -f2 /tmp/key |base64 -d -i
+
+{"status":"OK","drm":[{"type":"WIDEVINE","system_id":"edef8ba979d64acea3c827dcd51d21ed"}],"tracks":[{"type":"SD","key_id":"JVYcJXymU+CfGh6ST8ZDAw==","key":"lqWSIJGbo8lXzCRsHMUi6w==","pssh":[{"drm_type":"WIDEVINE","data":"EhAlVhwlfKZT4J8aHpJPxkMDEhDkDDUze3ldyL5UDwmPTPl6EhCEAnUtLIZQvbWX2C1q+88uGg13aWRldmluZV90ZXN0Ige+J3TTTTTTSOPclZsG"}]},{"type":"HD","key_id":"5Aw1M3t5Xci+VA8Jj0z5eg==","key":"4QU+oC2MO9MNTyb6kQ+Esg==","pssh":[{"drm_type":"WIDEVINE","data":"EhAlVhwlfKZT4J8aHpJPxkMDEhDkDDUze3ldyL5UDwmPTPl6EhCEAnUtLIZQvbWX2C1q+88uGg13aWRldmluZV90ZXN0Ige+J3TTTTTTSOPclZsG"}]},{"type":"AUDIO","key_id":"hAJ1LSyGUL21l9gtavvPLg==","key":"nhcmi4g1k76rksPnHIWVNg==","pssh":[{"drm_type":"WIDEVINE","data":"EhAlVhwlfKZT4J8aHpJPxkMDEhDkDDUze3ldyL5UDwmPTPl6EhCEAnUtLIZQvbWX2C1q+88uGg13aWRldmluZV90ZXN0Ige+J3TTTTTTSOPclZsG"}]}],"already_used":true}
+
+ 
+
+ 
+
+hieult@hieult-VirtualBox:~/projects$ cut -d: -f2 /tmp/key | base64 -d -i
+
+{"status":"OK","drm":[{"type":"WIDEVINE","system_id":"edef8ba979d64acea3c827dcd51d21ed"}],"tracks":[{"type":"SD","key_id":"ApS5WZ11XeK78P3KP6Xqtw==","key":"O9ovQDRMfe9hQie5wPA+Jg==","pssh":[{"drm_type":"WIDEVINE","data":"EhAClLlZnXVd4rvw/co/peq3EhDrZ2q7yzRelrvPYWYw8aPaEhBjnagM8jtV87jKs/ZM+l32Gg13aWRldmluZV90ZXN0IhBma2ozbGphU2RmYWxrcjNqSOPclZsG"}]},{"type":"HD","key_id":"62dqu8s0Xpa7z2FmMPGj2g==","key":"EAtsIJQPd5pFiRUrV9Layw==","pssh":[{"drm_type":"WIDEVINE","data":"EhAClLlZnXVd4rvw/co/peq3EhDrZ2q7yzRelrvPYWYw8aPaEhBjnagM8jtV87jKs/ZM+l32Gg13aWRldmluZV90ZXN0IhBma2ozbGphU2RmYWxrcjNqSOPclZsG"}]},{"type":"AUDIO","key_id":"Y52oDPI7VfO4yrP2TPpd9g==","key":"Ip9fKbZD4gMASzDE6vNI9A==","pssh":[{"drm_type":"WIDEVINE","data":"EhAClLlZnXVd4rvw/co/peq3EhDrZ2q7yzRelrvPYWYw8aPaEhBjnagM8jtV87jKs/ZM+l32Gg13aWRldmluZV90ZXN0IhBma2ozbGphU2RmYWxrcjNqSOPclZsG"}]}],"already_used":true}
+
+ 
+
+{
+
+                "content_id": "vid0000001",
+
+                "policy": "test_policy",
+
+                "tracks": [
+
+                                {
+
+                                                "type": "HD"
+
+                                },
+
+                                {
+
+                                                "type": "SD"
+
+                                },
+
+                                {
+
+                                                "type": "AUDIO",
+
+                                }
+
+                ],
+
+                "drm_types": [
+
+                                {
+
+                                                "WIDEVINE",
+
+                                },
+
+                ],
+
+}
+
+ 
+
+packager input=sintel.mp4,stream=video,output=encrypted_sintel.mp4 \
+
+--enable_widevine_encryption \
+
+--key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" \
+
+--content_id "3031323334353637" \
+
+--signer "widevine_test" \
+
+--rsa_signing_key_path "widevine_test_private.der"
+
+ 
+
+packager-win input=big_buck_bunny.mp4,stream=audio,init_segment=audio.mp4,segment_template=audio-$Number$.mp4  input=big_buck_bunny.mp4,stream=video,init_segment=video.mp4,segment_template=video-$Number$.mp4 --mpd_output big_buck_bunny.mpd --enable_widevine_encryption --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "3031323334353999" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" --crypto_period_duration 1800
+
+ 
+
+./packager input=big_buck_bunny.mp4,stream=audio,init_segment=audio.mp4,segment_template=audio-\$Number\$.mp4  input=big_buck_bunny.mp4,stream=video,init_segment=video.mp4,segment_template=video-\$Number\$.mp4 --mpd_output output.mpd --enable_widevine_encryption --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "3031323334353999" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" --crypto_period_duration 1800
+
+ 
+
+./packager  input=~/ArchitectVideo_dvd_512kb.mp4,stream=video,init_segment=video.mp4,segment_template=video-\$Number\$.mp4 --mpd_output output.mpd --enable_widevine_encryption --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id=3031323334353999 --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" --crypto_period_duration 1800 --enable_widevine_decryption
+
+ 
+
+# CORRECT ONE, no crypto_period_duration
+
+./packager input=~/ArchitectVideo_dvd_512kb.mp4,stream=video,init_segment=ArchitectVideo_dvd_512kb.mp4,segment_template=ArchitectVideo_dvd_512kb_cenc-\$Number\$.mp4 --enable_widevine_encryption=true --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "3031323334353637" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" --mpd_output ArchitectVideo_dvd_512kb_cenc.mpd
+
+ 
+
+./packager input=~/big_buck_bunny.mp4,stream=video,init_segment=big_buck_bunny_init.mp4,segment_template=big_buck_bunny-\$Number\$.mp4 --enable_widevine_encryption=true --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "my_stream" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" --mpd_output big_buck_bunny.mpd
+
+ 
+
+./packager input=big_buck_bunny.mp4,stream=video,init_segment=big_buck_bunny_init.mp4,segment_template=big_buck_bunny-\$Number\$.mp4 --enable_widevine_encryption=true --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "3031323334353637" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" -protection_scheme "cenc" --mpd_output big_buck_bunny.mpd --crypto_period_duration 2
+
+ 
+
+# CORRECT ONE!
+
+./packager input=~/ArchitectVideo_dvd_512kb.mp4,stream=video,output=ArchitectVideo_dvd_512kb_cenc.mp4 --enable_widevine_encryption=true --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "3031323334353637" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249" -protection_scheme "cenc" --mpd_output ArchitectVideo_dvd_512kb_cenc.mpd
+
+ 
+
+ 
+
+packager-win input=big_buck_bunny.mp4,stream=video,segment_template=test/media_video_$Number$.ts,playlist_name=video_playlist.m3u8 input=big_buck_bunny.mp4,stream=audio,segment_template=test/media_audio_$Number$.ts,playlist_name=audio_playlist.m3u8 --single_segment=false --hls_master_playlist_output="test/master_playlist.m3u8" --hls_base_url="http://localhost:10000/test/" --enable_widevine_encryption --key_server_url "https://license.uat.widevine.com/cenc/getcontentkey/widevine_test" --content_id "3031323334353637" --signer "widevine_test" --aes_signing_key "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9" --aes_signing_iv "d58ce954203b7c9a9a9d467f59839249"
+
+ 
+
+ 
+
+./Bento4-SDK-1-5-0-614.x86-microsoft-win32-vs2010/bin/mp4dash --widevine-header provider:widevine_test#content_id:vid0000001 --encryption-key JVYcJXymU+CfGh6ST8ZDAw==:lqWSIJGbo8lXzCRsHMUi6w== big_buck_bunny.mp4
