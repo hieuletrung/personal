@@ -3,7 +3,7 @@ curl "http://localhost:1935/triggerschedule?app=encoder&action=trigger"
 curl "http://10.0.3.216:1935/triggerschedule?app=encoder&action=dump"
 curl "http://qa-encoder:1935/triggerschedule?app=encoder&action=dump"
 
-curl "http://dev-freq-linear-dal.freq.us/lda/api/1.0/components?linear_channel_id=1&start_date=2018-08-22T00:00:00.000&end_date=2018-08-25T00:00:00.000"
+curl "http://qa-dal:8080/lda/api/1.0/components?linear_channel_id=1&start_date=2018-08-22T00:00:00.000&end_date=2018-08-25T00:00:00.000"
 
 
 ssh ec2-user@10.0.3.87 (edge)
@@ -17,10 +17,10 @@ ffmpeg -stream_loop -1 -re -i mission-impossible-fallout-trailer-2_h1080p.mov -v
 
 
 
-hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream2?streamName=scheduleStream&application=live&playlist=pl2"
+curl "http://localhost:8086/switchstream2?streamName=scheduleStream&application=live&playlist=pl2"
 
 
-hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream?streamName=liveStream&application=live&playlist=live"
+curl "http://localhost:8086/switchstream?streamName=liveStream&application=live&playlist=live"
 
 LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffmpeg -stream_loop -1 -re -i big_buck_bunny_1080p_h264.mp4 -vcodec libx264 -vprofile baseline -r 30 -b:v 8M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/liveStream
 
@@ -44,8 +44,8 @@ Switch to schedule: curl "http://localhost:8086/switchstream2?streamName=publish
 
 ---
 
-hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream2?streamName=liveStream&application=live"
-hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream2?streamName=scheduleStream&application=live"
+curl "http://localhost:8086/switchstream2?streamName=liveStream&application=live"
+curl "http://localhost:8086/switchstream2?streamName=scheduleStream&application=live"
 
 
 
