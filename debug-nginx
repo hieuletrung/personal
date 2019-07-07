@@ -1,0 +1,2 @@
+gdb /opt/nginx/sbin/nginx -pid `ps aux | grep 'nginx: worker process' | tr -s ' ' | cut -d' ' -f2` 
+set follow-fork-mode child

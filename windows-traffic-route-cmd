@@ -1,0 +1,14 @@
+netsh interface portproxy delete v4tov4 listenport=8761 listenaddress=192.168.0.194
+netsh interface portproxy delete v4tov4 listenport=9092 listenaddress=192.168.0.194
+netsh interface portproxy delete v4tov4 listenport=3306 listenaddress=192.168.0.194
+netsh interface portproxy delete v4tov4 listenport=2181 listenaddress=192.168.0.194
+netsh interface portproxy delete v4tov4 listenport=8081 listenaddress=192.168.0.194
+netsh interface portproxy add v4tov4 listenport=8761 listenaddress=192.168.0.194 connectport=8761 connectaddress=192.168.99.100
+netsh interface portproxy add v4tov4 listenport=9092 listenaddress=192.168.0.194 connectport=9092 connectaddress=192.168.99.100
+netsh interface portproxy add v4tov4 listenport=3306 listenaddress=192.168.0.194 connectport=3306 connectaddress=192.168.99.100
+netsh interface portproxy add v4tov4 listenport=2181 listenaddress=192.168.0.194 connectport=2181 connectaddress=192.168.99.100
+netsh interface portproxy add v4tov4 listenport=8081 listenaddress=192.168.0.194 connectport=8081 connectaddress=192.168.99.100
+
+netsh interface portproxy add v4tov4 listenport=8095 listenaddress=192.168.0.193 connectport=8095 connectaddress=192.168.0.119
+
+netsh interface portproxy delete v4tov4 listenport=8095 listenaddress=192.168.0.193

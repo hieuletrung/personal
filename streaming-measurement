@@ -1,0 +1,68 @@
+curl "http://localhost:1935/triggerschedule?app=encoder&action=trigger"
+
+curl "http://10.0.3.216:1935/triggerschedule?app=encoder&action=dump"
+curl "http://qa-encoder:1935/triggerschedule?app=encoder&action=dump"
+
+curl "http://dev-freq-linear-dal.freq.us/lda/api/1.0/components?linear_channel_id=1&start_date=2018-08-22T00:00:00.000&end_date=2018-08-25T00:00:00.000"
+
+
+ssh ec2-user@10.0.3.87 (edge)
+#ssh ec2-user@10.0.3.102 (encoder)
+ssh ec2-user@10.0.3.4 (encoder + packager)
+
+
+ffmpeg -stream_loop -1 -re -i mission-impossible-fallout-trailer-2_h1080p.mov -vcodec libx264 -vprofile baseline -r 30 -b:v 8M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://10.0.3.216:1935/encoder/myLiveStream
+
+ffmpeg -stream_loop -1 -re -i mission-impossible-fallout-trailer-2_h1080p.mov -vcodec libx264 -vprofile baseline -r 30 -b:v 8M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://10.88.96.216:1935/live/myLiveStream
+
+
+
+hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream2?streamName=scheduleStream&application=live&playlist=pl2"
+
+
+hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream?streamName=liveStream&application=live&playlist=live"
+
+LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffmpeg -stream_loop -1 -re -i big_buck_bunny_1080p_h264.mp4 -vcodec libx264 -vprofile baseline -r 30 -b:v 8M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/liveStream
+
+LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffmpeg -stream_loop -1 -re -i big_buck_bunny_720p_h264.mp4 -vcodec libx264 -vprofile baseline -r 30 -b:v 5M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/liveStream
+
+LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffmpeg -stream_loop -1 -re -i big_buck_bunny_480p_h264.mp4 -vcodec libx264 -vprofile baseline -r 30 -b:v 2.5M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/liveStream
+
+
+Watch live: LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffplay -x 320 -y 240 -window_title liveStream -fflags nobuffer -probesize 32 -sync ext rtmp://localhost:1935/live/liveStream
+
+Watch schedule: LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffplay -x 320 -y 240 -window_title scheduleStream -fflags nobuffer -probesize 32 -sync ext rtmp://localhost:1935/live/scheduleStream
+
+Watch output (final): LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib ffplay -x 320 -y 240 -window_title publishStream -fflags nobuffer -probesize 32 -sync ext rtmp://localhost:1935/live/publishStream
+
+ffmpeg -i capture.mp4 -ss 00:00:06.000 -vframes 40 thumb%04d.jpg
+
+Switch to live: curl "http://localhost:8086/switchstream2?streamName=publishStream&application=live&playlist=pl2"
+
+Switch to schedule: curl "http://localhost:8086/switchstream2?streamName=publishStream&application=live&playlist=pl1"
+
+
+---
+
+hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream2?streamName=liveStream&application=live"
+hieult16@CPP00121397a:/usr/local/WowzaStreamingEngine$ curl "http://localhost:8086/switchstream2?streamName=scheduleStream&application=live"
+
+
+
+
+
+LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib/ ffmpeg -f concat -safe 0 -i playlist_720p.txt -vcodec libx264 -vprofile baseline -r 30 -b:v 5M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/scheduleStream
+
+
+LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib/ ffmpeg -f concat -safe 0 -i playlist_1080p.txt -vcodec libx264 -vprofile baseline -r 30 -b:v 8M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/scheduleStream
+
+
+LD_LIBRARY_PATH=~/wowza/ffmpeg-build/lib/ ffmpeg -f concat -safe 0 -i playlist_480p.txt -vcodec libx264 -vprofile baseline -r 30 -b:v 2.5M -g 15 -acodec aac -strict -2 -vf 'drawtext=text=%{n}:x=(w-tw)/2:y=h-(2*lh):fontcolor=white:fontsize=128:box=1:boxcolor=0x00000099' -f flv rtmp://localhost:1935/live/scheduleStream
+
+
+https://www.wowza.com/community/questions/2157/frequently-requested-ffmpeg-command-examples-for-w.html
+
+https://www.wowza.com/docs/how-to-restream-using-ffmpeg-with-wowza-streaming-engine#udp
+
+https://www.wowza.com/docs/how-to-publish-and-play-a-live-stream-mpeg-ts-based-encoder
+
