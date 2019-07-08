@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="assignment-1/src"/>
+	<classpathentry kind="src" path="union-find/src"/>
+	<classpathentry kind="lib" path="assignment-1/algs4.jar"/>
+	<classpathentry kind="output" path="out/production/algorithms-1"/>
+</classpath>
