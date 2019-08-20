@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         album.cpp \
         albumdao.cpp \
+        albummodel.cpp \
         databasemanager.cpp \
         picture.cpp \
         picturedao.cpp
@@ -34,6 +35,7 @@ SOURCES += \
 HEADERS += \
         album.h \
         albumdao.h \
+        albummodel.h \
         databasemanager.h \
         gallery-core_global.h  \
         picture.h \
