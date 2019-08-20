@@ -30,7 +30,8 @@ SOURCES += \
         albummodel.cpp \
         databasemanager.cpp \
         picture.cpp \
-        picturedao.cpp
+        picturedao.cpp \
+        picturemodel.cpp
 
 HEADERS += \
         album.h \
@@ -39,7 +40,8 @@ HEADERS += \
         databasemanager.h \
         gallery-core_global.h  \
         picture.h \
-        picturedao.h
+        picturedao.h \
+        picturemodel.h
 
 #unix {
 #    target.path = /usr/lib
