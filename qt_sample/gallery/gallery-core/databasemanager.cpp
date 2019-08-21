@@ -1,6 +1,7 @@
 #include "databasemanager.h"
 
 #include <QSqlDatabase>
+#include <QDebug>
 
 DatabaseManager& DatabaseManager::instance() {
     static DatabaseManager instance;

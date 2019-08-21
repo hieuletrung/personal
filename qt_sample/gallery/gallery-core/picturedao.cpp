@@ -3,6 +3,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QVariant>
+#include <QSqlError>
+#include <QDebug>
 
 #include "picture.h"
 
@@ -15,7 +17,9 @@ PictureDao::PictureDao(QSqlDatabase& database) :
 void PictureDao::init() const {
     if (!mDatabase.tables().contains("pictures")) {
         QSqlQuery query(mDatabase);
-        query.exec(QString("CREATE TABLE pictures id INTEGER PRIMARY KEY AUTOINCREMENT, album_id INTEGER, url TEXT"));
+        if (!query.exec(QString("CREATE TABLE pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, album_id INTEGER, url TEXT)"))) {
+            qDebug() << "Cannot create pictures table: " << query.lastError();
+        }
     }
 }
 
@@ -29,8 +33,12 @@ void PictureDao::addPictureInAlbum(int albumId, Picture& picture) const {
         insert.prepare("INSERT INTO pictures (album_id, url) values(:album_id, :url)");
         insert.bindValue(":album_id", albumId);
         insert.bindValue(":url", picture.fileUrl());
-        insert.exec();
+        if (!insert.exec()) {
+            qDebug() << "addPictureInAlbum: cannot insert pictures table: " << query.lastError();
+        }
         picture.setId(insert.lastInsertId().toInt());
+    } else {
+        qDebug() << "Empty album";
     }
 }
 
@@ -38,14 +46,18 @@ void PictureDao::removePicture(int id) const {
     QSqlQuery query(mDatabase);
     query.prepare("DELETE FROM pictures where id=:id");
     query.bindValue(":id", id);
-    query.exec();
+    if (!query.exec()) {
+        qDebug() << "removePicture: cannot delete picture:" << id << ", err=" << query.lastError();
+    }
 }
 
 void PictureDao::removePicturesForAlbum(int albumId) const {
     QSqlQuery query(mDatabase);
     query.prepare("DELET FROM pictures where album_id=:album_id");
     query.bindValue(":album_id", albumId);
-    query.exec();
+    if (!query.exec()) {
+        qDebug() << "removePicturesForAlbum: cannot delete album_id:" << albumId << ",err=" << query.lastError();
+    }
 }
 
 PictureListPtr PictureDao::picturesForAlbum(int albumId) const {
