@@ -4,6 +4,8 @@
 #include "albummodel.h"
 #include "databasemanager.h"
 
+#include <QDebug>
+
 PictureModel::PictureModel(const AlbumModel& albumModel, QObject* parent) :
     QAbstractListModel(parent),
     mDb(DatabaseManager::instance()),
@@ -38,6 +40,11 @@ QModelIndex PictureModel::addPicture(const Picture& picture) {
     mPictures->push_back(move(newPicture));
     endInsertRows();
     return index(rowIndex, 0);
+}
+
+void PictureModel::addPictureFromUrl(const QString& url) {
+    qDebug() << "addPictureFromUrl: " << url;
+    addPicture(Picture(QUrl(url)));
 }
 
 int PictureModel::rowCount(const QModelIndex& parent) const {

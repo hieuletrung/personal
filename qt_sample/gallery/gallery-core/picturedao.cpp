@@ -36,6 +36,7 @@ void PictureDao::addPictureInAlbum(int albumId, Picture& picture) const {
         if (!insert.exec()) {
             qDebug() << "addPictureInAlbum: cannot insert pictures table: " << query.lastError();
         }
+        qDebug() << "addPicture: url=" << picture.fileUrl();
         picture.setId(insert.lastInsertId().toInt());
     } else {
         qDebug() << "Empty album";

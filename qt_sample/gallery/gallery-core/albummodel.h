@@ -23,6 +23,7 @@ public:
     AlbumModel(QObject* parent = nullptr);
 
     QModelIndex addAlbum(const Album& album);
+    Q_INVOKABLE void addAlbumFromName(const QString& name);
 
     /**
      * @brief Get the list size

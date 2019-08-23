@@ -26,12 +26,13 @@ public:
     PictureModel(const AlbumModel& albumModel, QObject* parent = nullptr);
 
     QModelIndex addPicture(const Picture& picture);
+    Q_INVOKABLE void addPictureFromUrl(const QString& url);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
     bool removeRows(int row, int count, const QModelIndex& parent) override;
 
-    void setAlbumId(int albumId);
+    Q_INVOKABLE void setAlbumId(int albumId);
     void clearAlbum();
     QHash<int, QByteArray> roleNames() const override;
 

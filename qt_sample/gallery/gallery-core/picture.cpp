@@ -1,5 +1,7 @@
 #include "picture.h"
 
+#include <QDebug>
+
 Picture::Picture(const QString& filePath) :
     Picture(QUrl::fromLocalFile(filePath))
 {
@@ -11,7 +13,7 @@ Picture::Picture(const QUrl& fileUrl) :
     mAlbumId(-1),
     mFileUrl(fileUrl)
 {
-
+    qDebug() << "Picture: " << fileUrl;
 }
 
 QUrl Picture::fileUrl() const {

@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>AlbumListPage.qml</file>
+        <file>Style.qml</file>
+        <file>PageTheme.qml</file>
+        <file>ToolBarTheme.qml</file>
+        <file>InputDialog.qml</file>
+        <file>AlbumPage.qml</file>
+        <file>PicturePage.qml</file>
+        <file>qmldir</file>
+    </qresource>
+    <qresource prefix="/res/icons">
+        <file>album-add.svg</file>
+        <file>back.svg</file>
+        <file>photo-add.svg</file>
+    </qresource>
+</RCC>
