@@ -23,6 +23,7 @@ PageTheme {
 
         delegate: Rectangle {
             property int itemIndex: index
+            // This match the roleNames function call inside the model above
             property string itemName: filepath
             width: ListView.view.width === 0 ? parent.width : ListView.view.width
             height: pictureListView.height
