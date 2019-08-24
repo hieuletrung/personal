@@ -59,3 +59,6 @@ SOURCES += \
 
 FORMS += \
     filterwidget.ui
+
+RESOURCES += \
+    filter-plugin-designer.qrc

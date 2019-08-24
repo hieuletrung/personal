@@ -38,7 +38,7 @@ bool FilterPluginDesigner::isContainer() const
 
 QString FilterPluginDesigner::includeFile() const
 {
-    return "FilterWidget.h";
+    return "filterwidget.h";
 }
 
 QWidget* FilterPluginDesigner::createWidget(QWidget* parent)
