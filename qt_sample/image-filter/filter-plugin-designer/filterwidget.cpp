@@ -11,7 +11,7 @@ FilterWidget::FilterWidget(QWidget *parent) :
     ui(new Ui::FilterWidget),
     mFilterType(Original),
     mDefaultSourcePicture(":/lenna.jpg"),
-    mSourcePicture(),
+    mSourcePicture(mDefaultSourcePicture),
     mSourceThumbnail(mDefaultSourcePicture.scaled(QSize(256, 256),
     Qt::KeepAspectRatio,
     Qt::SmoothTransformation)),
