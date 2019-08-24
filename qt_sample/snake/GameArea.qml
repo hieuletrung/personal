@@ -1,11 +1,18 @@
-import QtQuick 2.0
 import Qt3D.Core 2.0
 import Qt3D.Render 2.0
 import Qt3D.Extras 2.0
+import Qt3D.Input 2.0
+import QtQuick 2.6 as QQ2
+
+import "engine.js" as Engine
 
 Entity {
     id: root
     property alias gameRoot: root
+    property alias timerInterval: timer.interval
+    property int initialTimeInterval: 80
+    property int initialSnakeSize: 5
+    property string state: ""
 
     Camera {
         id: camera
@@ -29,5 +36,36 @@ Entity {
         }
     }
 
-    components: [frameFraph]
+    KeyboardDevice {
+        id: keyboardController
+    }
+
+    InputSettings { id: inputSettings }
+
+    KeyboardHandler {
+        id: input
+        sourceDevice: keyboardController
+        focus: true
+        onPressed: Engine.handleKeyEvent(event)
+    }
+
+    QQ2.Component.onCompleted: {
+        console.log("Start game...");
+        timer.start();
+        Engine.start();
+    }
+
+    QQ2.Timer {
+        id: timer
+        interval: initialTimeInterval
+        repeat: true
+        onTriggered: Engine.update();
+    }
+
+    Background {
+        position: Qt.vector3d(camera.x, camera.y, 0)
+        scale3D: Qt.vector3d(camera.x * 2, camera.y * 2, 0)
+    }
+
+    components: [frameFraph, input]
 }

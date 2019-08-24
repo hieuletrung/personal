@@ -2,5 +2,29 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>GameArea.qml</file>
+        <file>GameEntity.qml</file>
+        <file>Wall.qml</file>
+        <file>SnakePart.qml</file>
+        <file>Apple.qml</file>
+        <file>Background.qml</file>
+        <file>MaterialBackground.qml</file>
+        <file>shaders/es2/grass.frag</file>
+        <file>shaders/es2/grass.vert</file>
+        <file>shaders/gl3/grass.frag</file>
+        <file>shaders/gl3/grass.vert</file>
+        <file>models/apple.blend</file>
+        <file>models/apple.obj</file>
+        <file>models/apple-texture.png</file>
+        <file>engine.js</file>
+        <file>GameOverItem.qml</file>
+        <file>OverlayItem.qml</file>
+        <file>board.js</file>
+        <file>factory.js</file>
+        <file>images/glowdot.png</file>
+        <file>images/grass.jpg</file>
     </qresource>
+    <qresource prefix="/shaders/gl3"/>
+    <qresource prefix="/shaders"/>
+    <qresource prefix="/shaders/es2"/>
+    <qresource prefix="/models"/>
 </RCC>
