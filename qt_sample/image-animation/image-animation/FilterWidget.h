@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QImage>
+#include <QPropertyAnimation>
+#include <QGraphicsColorizeEffect>
 
 namespace Ui {
 class FilterWidget;
@@ -24,11 +26,17 @@ public:
     void updateThumbnail();
     QString title() const;
 
+    QPropertyAnimation* colorAnimation();
+
 signals:
     void pictureProcessed(const QImage& picture);
 
 protected:
     void mousePressEvent(QMouseEvent*) override;
+
+private:
+    void initAnimations();
+    void startSelectionAnimation();
 
 private:
     Ui::FilterWidget *ui;
@@ -38,6 +46,9 @@ private:
     QImage mSourceThumbnail;
     QImage mFilteredPicture;
     QImage mFilteredThumbnail;
+    QPropertyAnimation mSelectionAnimation;
+    QPropertyAnimation* mColorAnimation;
+    QGraphicsColorizeEffect mColorEffect;
 };
 
 #endif // FILTERWIDGET_H

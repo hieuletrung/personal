@@ -15,7 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mCurrentPixmap(),
     mFilterLoader(),
     mCurrentFilter(nullptr),
-    mFilters()
+    mFilters(),
+    mLoadPictureAnimation(),
+    mPictureOpacityEffect(),
+    mFiltersGroupAnimation()
 {
     ui->setupUi(this);
     ui->actionSaveAs->setEnabled(false);
@@ -26,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAsPicture);
 
     initFilters();
+    initAnimations();
 }
 
 MainWindow::~MainWindow()
@@ -64,13 +68,17 @@ void MainWindow::loadPicture()
     for (int i = 0; i <mFilters.size(); ++i) {
         mFilters[i]->setSourcePicture(mSourcePicture);
         mFilters[i]->setSourceThumbnail(mSourceThumbnail);
-        mFilters[i]->updateThumbnail();
+//        mFilters[i]->updateThumbnail();
     }
+
     mCurrentFilter->process();
+    mLoadPictureAnimation.start();
+    mFiltersGroupAnimation.start();
 }
 
 void MainWindow::displayPicture(const QImage& picture)
 {
+    qDebug() << "MainWindow::displayPicture" << picture;
     mFilteredPicture = picture;
     mCurrentPixmap = QPixmap::fromImage(picture);
     updatePicturePixmap();
@@ -96,4 +104,19 @@ void MainWindow::saveAsPicture()
         return;
     }
     mFilteredPicture.save(filename);
+}
+
+void MainWindow::initAnimations()
+{
+    ui->pictureLabel->setGraphicsEffect(&mPictureOpacityEffect);
+    mLoadPictureAnimation.setTargetObject(&mPictureOpacityEffect);
+    mLoadPictureAnimation.setPropertyName("opacity");
+    mLoadPictureAnimation.setDuration(500);
+    mLoadPictureAnimation.setStartValue(0);
+    mLoadPictureAnimation.setEndValue(1);
+    mLoadPictureAnimation.setEasingCurve(QEasingCurve::InCubic);
+
+    for (FilterWidget* filterWidget : mFilters) {
+        mFiltersGroupAnimation.addAnimation(filterWidget->colorAnimation());
+    }
 }

@@ -3,6 +3,8 @@
 #include <opencv/cv.h>
 #include <opencv/cv.hpp>
 
+#include <QDebug>
+
 FilterBlur::FilterBlur(QObject* parent) :
     QObject(parent)
 {
@@ -19,9 +21,11 @@ QString FilterBlur::name() const
 
 QImage FilterBlur::process(const QImage& image)
 {
+    qDebug() << "QImage FilterBlur::process(const QImage& image) " << image;
+
     // QImage => cv::mat
     cv::Mat tmp(image.height(), image.width(), CV_8UC4, (uchar*)image.bits(), image.bytesPerLine());
-    int blur = 17;
+    int blur = 25;
     cv::Mat resultMat;
     cv::GaussianBlur(tmp, resultMat, cv::Size(blur, blur), 0.0, 0.0);
 

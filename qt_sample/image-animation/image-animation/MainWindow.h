@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QImage>
 #include <QVector>
+#include <QPropertyAnimation>
+#include <QGraphicsOpacityEffect>
+#include <QSequentialAnimationGroup>
 
 #include "FilterLoader.h"
 
@@ -33,6 +36,7 @@ private slots:
 private:
     void initFilters();
     void updatePicturePixmap();
+    void initAnimations();
 
 private:
     Ui::MainWindow *ui;
@@ -43,6 +47,12 @@ private:
     FilterLoader mFilterLoader;
     FilterWidget* mCurrentFilter;
     QVector<FilterWidget*> mFilters;
+
+    // animation
+    QPropertyAnimation mLoadPictureAnimation;
+    QGraphicsOpacityEffect mPictureOpacityEffect;
+
+    QSequentialAnimationGroup mFiltersGroupAnimation;
 };
 
 #endif // MAINWINDOW_H
