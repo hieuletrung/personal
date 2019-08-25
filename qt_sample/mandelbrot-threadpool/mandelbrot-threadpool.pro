@@ -25,14 +25,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++14
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+        Job.cpp \
+        MainWindow.cpp \
+        MandelbrotCalculator.cpp \
+        MandelbrotWidget.cpp \
+        main.cpp
 
 HEADERS += \
-        mainwindow.h
+        Job.h \
+        JobResult.h \
+        MainWindow.h \
+        MandelbrotCalculator.h \
+        MandelbrotWidget.h
 
 FORMS += \
-        mainwindow.ui
+    MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
