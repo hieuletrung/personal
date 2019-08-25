@@ -8,6 +8,10 @@ FilterBlur::FilterBlur(QObject* parent) :
 {
 }
 
+FilterBlur::~FilterBlur() {
+
+}
+
 QString FilterBlur::name() const
 {
     return "Blur";

@@ -33,7 +33,7 @@ HEADERS += \
 
 include(../plugins-common.pri)
 
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
+#unix {
+#    target.path = /usr/lib
+#    INSTALLS += target
+#}

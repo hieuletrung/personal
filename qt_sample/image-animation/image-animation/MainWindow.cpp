@@ -1,11 +1,10 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
+
+#include "FilterWidget.h"
 
 #include <QFileDialog>
-#include <QPixmap>
-#include <QDir>
-
-#include "filterwidget.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,15 +13,18 @@ MainWindow::MainWindow(QWidget *parent) :
     mSourceThumbnail(),
     mFilteredPicture(mSourcePicture),
     mCurrentPixmap(),
+    mFilterLoader(),
     mCurrentFilter(nullptr),
     mFilters()
 {
     ui->setupUi(this);
-
+    ui->actionSaveAs->setEnabled(false);
     ui->pictureLabel->setMinimumSize(1, 1);
+
     connect(ui->actionOpenPicture, &QAction::triggered, this, &MainWindow::loadPicture);
     connect(ui->actionExit, &QAction::triggered, this, &QMainWindow::close);
     connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::saveAsPicture);
+
     initFilters();
 }
 
@@ -33,13 +35,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::initFilters()
 {
-    mFilters.push_back(ui->filterWidgetOriginal);
-    mFilters.push_back(ui->filterWidgetBlur);
-    mFilters.push_back(ui->filterWidgetGrayscale);
-    for (int i = 0; i<mFilters.size(); ++i) {
-        connect(mFilters[i], &FilterWidget::pictureProcessed, this, &MainWindow::displayPicture);
+    qDebug() << "initFilters";
+    mFilterLoader.loadFilters();
+    auto& filters = mFilterLoader.filters();
+    for(auto& filter : filters) {
+        FilterWidget* filterWidget = new FilterWidget(*filter);
+        ui->filtersLayout->addWidget(filterWidget);
+        connect(filterWidget, &FilterWidget::pictureProcessed, this, &MainWindow::displayPicture);
+        mFilters.append(filterWidget);
     }
-    mCurrentFilter = mFilters[0];
+    if (mFilters.length() > 0) {
+        mCurrentFilter = mFilters[0];
+    }
 }
 
 void MainWindow::loadPicture()
@@ -53,11 +60,12 @@ void MainWindow::loadPicture()
 
     mSourcePicture = QImage(filename);
     mSourceThumbnail = mSourcePicture.scaled(QSize(256, 256), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    for (int i = 0; i<mFilters.size(); ++i) {
-        mFilters[i]->setSourcePicture(mSourcePicture);
-        mFilters[i]->updateThumbnail(mSourceThumbnail);
-    }
 
+    for (int i = 0; i <mFilters.size(); ++i) {
+        mFilters[i]->setSourcePicture(mSourcePicture);
+        mFilters[i]->setSourceThumbnail(mSourceThumbnail);
+        mFilters[i]->updateThumbnail();
+    }
     mCurrentFilter->process();
 }
 

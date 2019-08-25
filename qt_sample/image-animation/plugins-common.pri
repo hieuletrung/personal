@@ -11,11 +11,10 @@ windows {
     target_install_path = $$OUT_PWD/../image-animation/plugins/
 }
 
-# Check Qt file 'spec_post.prf' for more information about
-'$$QMAKE_MKDIR_CMD'
+# Check Qt file 'spec_post.prf' for more information about '$$QMAKE_MKDIR_CMD'
 createPluginsDir.path = $$target_install_path
 createPluginsDir.commands = $$QMAKE_MKDIR_CMD $$createPluginsDir.path
-
 INSTALLS += createPluginsDir
+
 target.path = $$target_install_path
 INSTALLS += target

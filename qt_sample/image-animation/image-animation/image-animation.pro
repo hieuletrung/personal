@@ -27,22 +27,25 @@ CONFIG += c++11
 SOURCES += \
         FilterLoader.cpp \
         FilterWidget.cpp \
-        main.cpp \
-        mainwindow.cpp
+        MainWindow.cpp \
+        main.cpp
 
 HEADERS += \
         FilterLoader.h \
         FilterWidget.h \
-        mainwindow.h
+        MainWindow.h
 
 FORMS += \
         FilterWidget.ui \
-        mainwindow.ui
+        MainWindow.ui
 
 INCLUDEPATH += $$PWD/../sdk
 DEPENDPATH += $$PWD/../sdk
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+## Default rules for deployment.
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    image-animation.qrc
