@@ -30,6 +30,7 @@ SOURCES += \
         PlaybackWorker.cpp \
         Serializable.cpp \
         Serializer.cpp \
+        SoundEffectWidget.cpp \
         SoundEvent.cpp \
         Track.cpp \
         XmlSerializer.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
         PlaybackWorker.h \
         Serializable.h \
         Serializer.h \
+        SoundEffectWidget.h \
         SoundEvent.h \
         Track.h \
         XmlSerializer.h
@@ -54,3 +56,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc
