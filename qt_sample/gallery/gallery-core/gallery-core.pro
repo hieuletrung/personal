@@ -43,7 +43,7 @@ HEADERS += \
         picturedao.h \
         picturemodel.h
 
-#unix {
-#    target.path = /usr/lib
-#    INSTALLS += target
-#}
+unix {
+    target.path = $$_PRO_FILE_PWD_/../dist/desktop-linux/root/usr/lib/
+    INSTALLS += target
+}

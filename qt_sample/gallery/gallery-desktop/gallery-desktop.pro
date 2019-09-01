@@ -51,9 +51,9 @@ FORMS += \
         picturewidget.ui
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../gallery-core/release/ -lgallery-core
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../gallery-core/debug/ -lgallery-core
@@ -64,3 +64,8 @@ DEPENDPATH += $$PWD/../gallery-core
 
 RESOURCES += \
     resource.qrc
+
+linux {
+    target.path = $$_PRO_FILE_PWD_/../dist/desktop-linux/root/usr/bin/
+    INSTALLS += target
+}

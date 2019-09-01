@@ -14,6 +14,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+OTHER_FILES += \
+    android/AndroidManifest.xml
+
 SOURCES += \
         main.cpp \
         pictureimageprovider.cpp
@@ -28,9 +31,9 @@ QML_IMPORT_PATH =
 QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+#!isEmpty(target.path): INSTALLS += target
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../gallery-core/release/ -lgallery-core
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../gallery-core/debug/ -lgallery-core
@@ -49,3 +52,19 @@ DISTFILES += \
 
 HEADERS += \
     pictureimageprovider.h
+
+android {
+    contains(ANDROID_TARGET_ARCH,x86) {
+        ANDROID_EXTRA_LIBS = \
+            $$[QT_INSTALL_LIBS]/libQt5Sql.so
+    }
+    DISTFILES += \
+                android/AndroidManifest.xml \
+                android/gradle/wrapper/gradle-wrapper.jar \
+                android/gradlew \
+                android/res/values/libs.xml \
+                android/build.gradle \
+                android/gradle/wrapper/gradle-wrapper.properties \
+                android/gradlew.bat
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+}
