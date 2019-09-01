@@ -2,6 +2,8 @@
 #define ALBUM_H
 
 #include <QString>
+#include <QDebug>
+#include <QDebugStateSaver>
 
 #include "gallery-core_global.h"
 
@@ -20,5 +22,15 @@ private:
     int mId;
     QString mName;
 };
+
+QDebug operator<<(QDebug debug, const Album& album)
+{
+    QDebugStateSaver saver(debug);
+    debug.nospace() << "("
+                    << "id: " << album.id() << ", "
+                    << "name: " << album.name()
+                    << ")";
+    return debug;
+}
 
 #endif // ALBUM_H
