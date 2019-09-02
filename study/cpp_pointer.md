@@ -40,11 +40,12 @@
 * const pointers to a nonconstants: pointer cannot be changed, but the data pointed to can be modify. `int *const pci`
 * const pointers to a contants: pointer cannot be changed, data point to cannot be changed through pointer. `const int * consant pci`
 * pointer to (const pointers to const): `const int * const * pci`
-| pointer type | pointer modificable | data pointed to modificable|
-| pointer to nonconstants | y | y |
-| pointer to a constant | y | n |
-| constant pointer to a nonconstant | n | y |
-| constant pointer to a constant | n | n |
+pointer type | pointer modificable | data pointed to modificable
+------------ | ------------------- | ---------------------------
+pointer to nonconstants | :heavy_check_mark: | :heavy_check_mark:
+pointer to a constant | :heavy_check_mark: | :heavy_multiplication_x:
+constant pointer to a nonconstant | :heavy_multiplication_x: | :heavy_check_mark:
+constant pointer to a constant | :heavy_multiplication_x: | :heavy_multiplication_x:
 
 ![constant pointer][const_pointer]
 
@@ -71,19 +72,19 @@
  * stack and base pointers: pointers used by the runtime system to manage stack
 * function pointer: `void (*foo)()` or `double* (*f3)(int, int)`
  * using a function pointer
-`
+```
 int (*fptr1)(int);
 int square(int num) {
     return num*num;
 }
-`
-`
+```
+```
 int n = 5;
 fptr1 = square;
 printf("%d squared is %d\n", n, fptr(n));
-`
+```
  * passing a function pointer
-`
+```
 int add(int num1, int num2) {
     return num1+num2;
 }
@@ -96,16 +97,16 @@ int compute(fptrOperation op, int num1, int num2) {
 }
 printf("%d\n", compute(add, 5, 6));
 printf("%d\n", compute(subtract, 5, 6));
-`
+```
  * return a function pointer
-`
+```
 fptrOperation select(char opcode) {
     switch(opcode) {
         case '+': return add;
         case '-': return subtract;
     }
 }
-`
+```
  * array function pointer: `fptrOperatin operations[128] = {add, subtract};`
  * compare function pointer: functions pointer can be compared using equality (==) and inequality (!=) operators
  * casting function pointer: can be cast but should use with care since run time system doesn't verify parameters used by a function pointer a correct or not
@@ -118,18 +119,18 @@ fptrOperation select(char opcode) {
 * Two dimension array use row and column to identify array element: `int matrix[2][3] = {{1,2,3},{4,5,6}}`
 ![two dimension array][two_dimension_array]
 * pointer and array: we can assign an array to pointer
-`
+```
 int vector[5] = {1,2,3,4,5};
 int *pv = vector; // or int *pv = &vector[0];
-`
+```
  * Bracket notation will take the address contained in pointer and add the value contained in the index i using pointer arithmetic. pv[i] is evaluated as \*(pv + i)
  * \*(pv+i) is equavalent to \*(vector+i)
 * difference between pointer and array
-`
+```
 pv = pv + 1;
 vector = vector + 1; // error
 pv = vector + 1; // ok
-`
+```
 
 
 [const_pointer]: https://github.com/hieuletrung/personal/raw/master/study/const_pointer.png "Constant pointer"
