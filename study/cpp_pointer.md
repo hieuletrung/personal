@@ -40,8 +40,9 @@
 * const pointers to a nonconstants: pointer cannot be changed, but the data pointed to can be modify. `int *const pci`
 * const pointers to a contants: pointer cannot be changed, data point to cannot be changed through pointer. `const int * consant pci`
 * pointer to (const pointers to const): `const int * const * pci`
+
 pointer type | pointer modificable | data pointed to modificable
------------- | ------------------- | ---------------------------
+------------ | ------------ | ------------
 pointer to nonconstants | :heavy_check_mark: | :heavy_check_mark:
 pointer to a constant | :heavy_check_mark: | :heavy_multiplication_x:
 constant pointer to a nonconstant | :heavy_multiplication_x: | :heavy_check_mark:
