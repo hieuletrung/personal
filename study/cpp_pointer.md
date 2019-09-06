@@ -451,6 +451,208 @@ void preOrder(TreeNode *root, DISPLAY display);                 // visit the nod
 void postOrder(TreeNode *root, DISPLAY display);                // go right, visit the node, go left
 ```
 
+# Security Issues and Improper Use of Pointers
+* Pointer Declaration and Initialization
+ * Improper declaration
+```c
+int* ptr1, ptr2;
+// ptr1 is a pointer to integer
+// ptr2 is an integer
+
+int *ptr1, *ptr2;
+// ptr1 and ptr2 is pointer to integer
+
+#define PINT int*
+PINT ptr1, ptr2;
+// ptr1 is a pointer to integer
+// ptr2 is a integer
+
+typedef int* PINT;
+PINT ptr1, ptr2;
+// ptr1 and ptr2 is pointer to integer
+```
+ * Failure to initialize pointer before using
+ * Dealing with uninitialized pointer
+  * always initialize pointer with NULL
+  * use assert function
+  * use third party tool
+* Pointer Usage Issue
+ * Test for NULL: always check the return of malloc
+ * Misuse dereference operator
+```c
+int num;
+int *pi;
+*pi = &num; // incorrect
+```
+ * Dangling pointer: a pointer that has been freed but still references its memory.
+ * Access memory outside the bounds of array
+ * Calculating array size incorrectly: reference size incorrectly in a loop, missing NULL character for string
+ * Misuse sizeof operator
+ * Always match pointer type: int * vs. short *
+ * Bounded pointer: a pointer whose use is restricted to only valid regions
+  * Bounded Model Checking or CBMC
+ * String Security Issues: write over boundary of a string, strcat, strcpy
+ * Pointer arithmetic and structure: pointer arithmetic should not use with structure, since structure's field may not be allocated contiguous region memory
+ * Function pointer issues
+```c
+if (getSystemStatus == 0) {   // missing open parenthese, compare pointer to 0
+
+} else {
+
+}
+// or
+if (getSystemStatus) {
+
+}
+// assign a function to pointer pointer differ in signature
+int (*fptrCompute)(int, int);
+int add(int, int, int);
+fptrCompute = add;  // compile ok but output is indeterminate
+```
+* Memory Deallocation Issues
+ * Double free
+ * Clear sensitive data: it's better to overwrite sensitive data when no longer need, since when application terminate, OS won't zero out its memory usage.
+* Use Static Analysis Tools
+ * GCC -Wall
+
+# Odds and Ends
+* Casting Pointers
+ * Accessing a Special Purpose Address
+ ```c
+ #define VIDEO_BASE 0xB8000
+ int *video = (int *)VIDEO_BASE;
+ *video='A';
+ ```
+  * Access address 0 pointer
+   * assign a zero to integer then cast the integer to pointer
+   * use union
+   * use memset to assign 0 to a pointer: `memset((void*)&ptr, 0, sizeof(ptr))`
+  * Access a port
+```c
+#define PORT 0xB0000000
+unsigned int volatile * const port = (unsigned int *)PORT;
+```
+  * Access memory using DMA
+  * Determine Endianess of a Machine
+  ```c
+  int num = 0x12345678;
+  char *pc = (char*)num;
+  for (int i=0; i<4; i++) {
+    printf("%p: %02x \n", pc, (unsigned char) *pc++);
+  }
+  // Intel PC: little-endian
+  // 100: 78
+  // 101: 56
+  // 102: 34
+  // 103: 12
+  ```
+ * Aliasing, Strict Aliasing, and the restrict Keyword
+  * strict aliasing
+```c
+float number;
+unsigned int *ptrValue = (unsigned int *)&number; // violate strict aliasing
+```
+  * -fno-strict-aliasing, -fstrict-aliasing, -Wstrict-aliasing
+  * Use union to represent a value in multiple ways
+```c
+typedef union _conversion {
+  float fNum;
+  unsigned int uiNum;
+} Conversion;
+int isPositive1(float number) {
+  Conversion conversion = { .fNum = number };
+  return (conversion.uiNum & 0x8000000) == 0;
+}
+
+typedef union _conversion2 {
+  float *fNum;
+  unsigned int *uiNum;
+} Conversion2;
+int isPositive2(float num) {
+  Conversion2 conversion;
+  conversion.fNum = &num;
+  return (*conversion.uiNum & 0x8000000) == 0;
+}
+```
+  * Strict Aliasing
+  * Use restrict keyword: using restrict keyword when declaring a pointer tell compiler that the pointer is not aliased
+```c
+void add(int size, double * restrict arr1, double * restrict arr2); // this tell compiler that arr1 and arr2 are not referencing to same block of memory.
+```
+* Threads and Pointers
+ * Sharing Pointer between thread: protect data using mutex
+ * Using function pointer to support callback
+* Object Oriented Techniques
+ * Creating and using opaque pointer: opaque pointer can be used to effect data encapsulation in C
+  * One approach is to create a structure without any implementation detail in a header file
+```c
+// link.h
+typedef void *Data;
+typedef struct _linkedList LinkedList;
+
+LinkedList* getLinkedListInstance();
+void removeLinkedListInstance(LinkedList *list);
+void addNode(LinkedList *, Data);
+Data removeNode(LinkedList *);
+
+// link.c
+
+typedef struct _node {
+  Data *data;
+  struct _node *next;
+} Node;
+
+struct _linkedList {
+  Node *head;
+}
+```
+ * Polymorphism in C
+```c
+typedef struct _shape {
+  vFunctions functions;
+  int x;
+  int y;
+} Shape;
+
+typedef void (*fptrSet)(void *, int);
+typedef int (*fptrGet)(void *);
+typedef void (*fptrDisplay)();
+
+typedef struct _functions {
+  fptrSet setX;
+  fptrSet setY;
+  fptrGet getX;
+  fptrGet getY;
+  fptrDisplay display;
+} vFunctions;
+
+// 
+void shapeDisplay(Shape *);
+int shapeGetX(Shape *);
+void shapeSetX(Shape *, int);
+int shapeGetY(Shape *);
+void shapeSetY(Shape *, int);
+
+Shape *getShapeInstance() {
+  Shape *shape = (Shape *)malloc(sizeof(Shape));
+  shape->functions.display = shapeDisplay;
+  shape->functions.getX = shapeGetX;
+  shape->functions.getY = shapeGetY;
+  shape->functions.setX = shapeSetX;
+  shape->functions.setY = shapeSetY;
+  shape->x = 100;
+  shape->y = 100;
+}
+
+// Rectangle
+typedef struct _rectangle {
+  Shape base;
+  int width;
+  int height;
+} Rectangle;
+```
+
+
 [const_pointer]: https://github.com/hieuletrung/personal/raw/master/study/const_pointer.png "Constant pointer"
 [two_dimension_array]: https://github.com/hieuletrung/personal/raw/master/study/two_dimension_array.png "Two dimension array"
 [noncontiguous_allocation]: https://github.com/hieuletrung/personal/raw/master/study/noncontiguous_allocation.png "Noncontiguous memory allocation"
