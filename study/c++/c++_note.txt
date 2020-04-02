@@ -1,0 +1,57 @@
+Rule of three
+Declaration and Definition
+Calling conventions and activation frames
+Sequence points
+Memory model
+Optimization
+Different C standards
+Some experience with 32-bit vs 64-bit issues
+• Memory alignment
+• CPU and memory optimization
+• Spirit of C
+ Trust the programmer
+ Keep the language small and simple
+ Provide only one way to do an operation
+ Make it fast, even if it is not guaranteed to be portable
+ Maintain conceptual simplicity
+ Don’t prevent the programmer from doing what needs
+to be done
+
+class A {
+public:
+ A(int sz) { sz_ = sz; v = new B[sz_]; }
+ ~A() { delete[] v; }
+ // ...
+private:
+ A(const A &);
+ A & operator=(const A &);
+ // ...
+ B * v;
+ int sz_;
+};
+
+the connection between C and C++
+• some techniques for polymorphism
+• how to initialize objects properly
+•rule of three
+• operator new[] and delete[]
+• common naming conventions
+Object lifetime
+The rule of three: If a class defines a copy constructor, a copy assignment operator, or a destructor, then it should define all three.
+The vtable
+
+--
+compiler and linker
+• declaration vs definition
+• activation frame
+• memory segments
+• memory alignment
+•sequence points
+• evaluation order
+• undefined vs unspecified
+• optimization
+•something about C++
+• proper initialization of objects
+• object lifetimes
+• vtables
+•rule of 3
