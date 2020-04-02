@@ -12,3 +12,8 @@ netsh interface portproxy add v4tov4 listenport=8081 listenaddress=192.168.0.194
 netsh interface portproxy add v4tov4 listenport=8095 listenaddress=192.168.0.193 connectport=8095 connectaddress=192.168.0.119
 
 netsh interface portproxy delete v4tov4 listenport=8095 listenaddress=192.168.0.193
+
+
+Windows process trace command:
+sxstrace Trace -logfile:test.log
+sxstrace Parse -logfile:test.log -outfile:test.txt
